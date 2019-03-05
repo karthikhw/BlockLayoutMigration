@@ -108,7 +108,7 @@ populateQueue(new File(volume));
         if (file.isDirectory()) {
           populateQueue(file);
         } else {
-        blockQueue.add(file);
+        blockQueue.offer(file);
         }
       }
     }catch (Exception e){
