@@ -7,7 +7,9 @@ This utility will move blocks into appropriate subdirs layout and delete stale m
 
 ## Usage
 
-#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<comma-separated-datadir\> \<block-pool-id\> [move-threads]  &>/vat/tmp/block-layout-migration.log &
+#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<comma-separated-datadir\> \<block-pool-id\> [mover-threads]  &>/vat/tmp/block-layout-migration.log &
+
+NOTE - By default, 10 mover threads. You can increase threads for parallelization.
 
 ## Download, Compile and Run
 
@@ -15,7 +17,7 @@ This utility will move blocks into appropriate subdirs layout and delete stale m
 <JAVA_HOME>/bin/javac BlockLayoutMigration.java
 
 ### To run,
-#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<comma-separated-datadir\> \<block-pool-id\> [move-threads]  &>/vat/tmp/block-layout-migration.log &
+#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<comma-separated-datadir\> \<block-pool-id\> [mover-threads]  &>/vat/tmp/block-layout-migration.log &
 
 
 
