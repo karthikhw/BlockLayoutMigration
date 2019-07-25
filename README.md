@@ -24,7 +24,7 @@ By default, 10 mover threads. You can increase threads for parallelization.
 <JAVA_HOME>/bin/javac BlockLayoutMigration.java
 
 ### To run,
-#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<comma-separated-datadir\> \<block-pool-id\> [mover-threads]  &>/vat/tmp/block-layout-migration.log &
+#nohup <JAVA_HOME>/bin/java BlockLayoutMigration \<2|3\> \<comma-separated-datadir\> \<block-pool-id\> [mover-threads]  &>/vat/tmp/block-layout-migration.log &
 
 
 
