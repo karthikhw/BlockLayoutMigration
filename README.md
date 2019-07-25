@@ -1,7 +1,11 @@
 # BlockLayoutMigration
-This utility will help us to migrate HDFS block from old layout (hadoop-2.x) to new Layout (hadoop-3.x) in LFS.
+This utility will help us to migrate HDFS block from old layout (hadoop-2.x) to new Layout (hadoop-3.x)
 
-We saw all blocks are missing or corrupt after hadoop-3.x upgrade. This issue is caused by manual data copy, by proceeded causion with an incomplete upgrade. 
+Or
+
+migrate HDFS block from new layout (hadoop-3.x) to old Layout (hadoop-2.x).
+
+We saw all blocks are missing or corrupt after hadoop-3.x upgrade/rollback. This issue is caused by manual data copy, by proceeded causion with an incomplete upgrade. 
 
 This utility will move blocks into appropriate subdirs layout and delete stale meta and block files from LFS.
 
