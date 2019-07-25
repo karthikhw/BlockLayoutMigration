@@ -15,10 +15,11 @@ public class BlockLayoutMigration {
     private static String[] dataDir;
     private static int HANDELER = 10;
     public static Queue<File> blockQueue = new LinkedBlockingQueue<File>();
+    public static int migrate = 0;
 
 
-    public void usage() {
-        System.out.println("# nohup <JAVA_HOME>/bin/java BlockLayoutMigration <comma-separated-datadir> <block-pool-id> [mover-threads]  &>/vat/tmp/block-layout-migration.log &");
+    public static void usage() {
+        System.out.println("# nohup <JAVA_HOME>/bin/java BlockLayoutMigration <2|3> <comma-separated-datadir> <block-pool-id> [mover-threads]  &>/vat/tmp/block-layout-migration.log &");
         System.exit(-1);
     }
 
@@ -45,8 +46,18 @@ public class BlockLayoutMigration {
                     int sourceSubdir2Pos = blkPath.length - 2;
                     if (blkName.contains(".meta")) {
                         long blockId = Long.parseLong(blkName.split("_")[1]);
-                        int target1 = (int) ((blockId >> 16) & 0x1F);
-                        int target2 = (int) ((blockId >> 8) & 0x1F);
+                        int target1 = -1;
+                        int target2 = -1;
+                        if (migrate == 3){
+                            target1 = (int) ((blockId >> 16) & 0x1F);
+                            target2 = (int) ((blockId >> 8) & 0x1F);
+                        }else if (migrate == 2){
+                            target1 = (int)((blockId >> 16) & 0xff);
+                            target2 = (int)((blockId >> 8) & 0xff);
+                        }else {
+                            System.out.println("Invalid migration option, <2|3> is a valid layout migration");
+                            usage();
+                        }
                         String sourceSubDir1 = blkPath[sourceSubdir1Pos];
                         String sourceSubDir2 = blkPath[sourceSubdir2Pos];
                         String targetSubDir1 = SUBDIR + target1;
@@ -74,7 +85,7 @@ public class BlockLayoutMigration {
                                     Files.move(oldLayoutBlockFile.toPath(),newLayoutBlockFile.toPath());
                                     System.out.println("Moved block file from old layout "+oldLayoutBlockFile +" to new layout "+newLayoutBlockFile);
                                 }else{
-                                oldLayoutMetaFile.deleteOnExit();
+                                    oldLayoutMetaFile.deleteOnExit();
                                     System.out.println("Deleted stale meta file from old layout "+oldLayoutMetaFile);
                                     oldLayoutBlockFile.deleteOnExit();
                                     System.out.println("Deleted stale block file from old layout "+oldLayoutBlockFile);
@@ -131,17 +142,18 @@ public class BlockLayoutMigration {
             e.printStackTrace();
         }
     }
-  public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         BlockLayoutMigration blockLayoutMigration = new BlockLayoutMigration();
         try{
 
-            if (args.length < 2) {
+            if (args.length < 3) {
                 blockLayoutMigration.usage();
-            } else if (args.length == 3) {
-                HANDELER = Integer.parseInt(args[2]);
+            } else if (args.length == 4) {
+                HANDELER = Integer.parseInt(args[3]);
             }
-            BLOCKPOOL = args[1];
-            dataDir = args[0].split(",");
+            migrate = Integer.parseInt(args[0]);
+            BLOCKPOOL = args[2];
+            dataDir = args[1].split(",");
             boolean isExist = true;
             for (int i = 0; i < dataDir.length; i++) {
                 File dir = new File(dataDir[i]);
