@@ -11,8 +11,11 @@ This utility will move blocks into appropriate subdirs layout and delete stale m
 
 
 NOTE
+
 If you are migrating blocks from hadoop-3.x to hadoop-2.x, then pass "2" in the args[0]
+
 If you are migrating blocks from hadoop-2.x to hadoop-3.x, then pass "3" in the args[0]
+
 By default, 10 mover threads. You can increase threads for parallelization.
 
 ## Download, Compile and Run
